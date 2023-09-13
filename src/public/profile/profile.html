@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <header>
+    <h1>My Profile</h1>
+  </header>
+  <main>
+    <section>
+      <p>Hello <span id="name"></span></p>
+      <p>Login Times: <span id="loginTimes"></span></p>
+    </section>
+    <section>
+      <button id="cartButton">Cart</button>
+      <a href="/api/v1/groceries"><button id="shopButton">Shop</button></a>
+    </section>
+  </main>
+  <form action="/api/v1/auth/logout" method="GET">
+    <button type="submit">Logout</button>
+  </form>
+  <script src="profile.js" defer></script>
+</body>
+</html>

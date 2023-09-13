@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 50px;
+}
+
+h1 {
+  color: #333;
+}
+
+form {
+  width: 300px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  opacity: 0.5; /* Dim the button when disabled */
+  cursor: not-allowed; /* Change the cursor to not-allowed when disabled */
+}
+
+
+button:hover {
+  background-color: #45a049;
+}
