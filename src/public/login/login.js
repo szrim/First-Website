@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const loginBtn = document.getElementById('loginBtn');
+  const gBtn = document.getElementById('googleLogin');
+
 
   // Function to check if the inputs are empty and enable/disable the login button accordingly
   function checkInputs() {

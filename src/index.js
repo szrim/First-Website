@@ -9,7 +9,7 @@ const path = require('path');
 const User = require('./database/schemas/User');
 const googleUser = require('./database/schemas/googleUser');
 require('./strategies/local');
-// require('./strategies/google');
+require('./strategies/google');
 
 //Routes
 const groceriesRoute = require('./routes/groceries');
@@ -68,6 +68,9 @@ passport.deserializeUser(async (id, done) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public', 'index')));
+app.use('/api/v1/auth/login', express.static(path.join(__dirname, 'public', 'login')));
+app.use('/api/v1/profile', express.static(path.join(__dirname, 'public', 'profile')));
+app.use('/api/v1/auth/register', express.static(path.join(__dirname, 'public', 'register')));
 
 app.use('/api/v1/groceries', groceriesRoute);
 app.use('/api/v1/markets', marketsRoute);

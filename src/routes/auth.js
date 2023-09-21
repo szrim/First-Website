@@ -5,8 +5,11 @@ const User = require('../database/schemas/User');
 const { hashPassword, comparePassword } = require('../utils/helpers');
 const { authRegisterController} = require('../controllers/auth');
 const path = require('path');
+const { googleOAuthClient } = require('../strategies/google');
 
 const router = Router();
+
+
 
 router.get('/usernameAvailability', async (req, res) => {
   const { username } = req.query;
@@ -26,7 +29,6 @@ router.get('/usernameAvailability', async (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  router.use(express.static(path.join(__dirname, '..', 'public', 'login')))
   res.sendFile(path.join(__dirname, '..', 'public', 'login', 'login.html'))
 });
 
@@ -52,7 +54,6 @@ router.post('/login', (req, res, next) => {
 router.post('/register', authRegisterController);
 
 router.get('/register', (req, res) => {
-  router.use(express.static(path.join(__dirname, '..', 'public', 'register')));
   res.sendFile(path.join(__dirname, '..', 'public', 'register', 'register.html'));
 });
 
@@ -60,23 +61,34 @@ router.get('/google', passport.authenticate('google'), (req, res) => {
   res.sendStatus(200)
 });
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.sendStatus(200)
+router.get('/google/redirect', passport.authenticate('google', {failureRedirect: '/login'}), (req, res) => {
+  res.redirect('/api/v1/profile')
 });
 
-router.get('/google/logout', (req, res, next) => {
-  req.logout((err) => {
-    if(err) { return next(err) }
+router.get('/logout', async function (req, res, next) {
+  if (req.user && req.user.googleAccessToken) {
+    try {
+      console.log('ACCESS TOKEN HERE')
+      // Revoke the Google OAuth access token using the same client instance
+      await googleOAuthClient.revokeToken(req.user.googleAccessToken);
+      console.log('TOKEN DELETED')
+      req.logout(err => {
+        if (err) { return next(err); }
+      });
+      res.redirect('/')
+    } catch (err) {
+      console.error('Error revoking Google OAuth access token:', err);
+    }
+  } else {
+    console.log('NO TOKEN')
+    // If there's no access token
+    req.logout(err => {
+      if (err) { return next(err); }
+    })
     res.redirect('/')
-  })
-})
-
-router.get('/logout', function(req, res, next) {
-  req.logout((err) => {
-    if (err) { return next(err); }
-    res.redirect('/')
-  });
+  };
 });
+
 
 
 module.exports = router;

@@ -4,8 +4,6 @@ const path = require('path');
 
 const router = Router();
 
-router.use(express.static(path.join(__dirname, '..', 'public', 'profile')));
-
 router.get('/', (req, res,) => {
   if(req.isAuthenticated()){
     
@@ -15,7 +13,7 @@ router.get('/', (req, res,) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'profile', 'profile.html'));
   }
   else{
-    res.sendStatus(401);
+    res.redirect('localhost:3001');
   } 
 });
 
