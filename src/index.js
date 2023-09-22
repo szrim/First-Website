@@ -38,9 +38,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 passport.serializeUser((user, done) => {
   console.log('Serializing User...');
   console.log(user);
@@ -66,6 +63,10 @@ passport.deserializeUser(async (id, done) => {
       done(err, null);
   }
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use(express.static(path.join(__dirname, 'public', 'index')));
 app.use('/api/v1/auth/login', express.static(path.join(__dirname, 'public', 'login')));

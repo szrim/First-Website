@@ -62,15 +62,17 @@ router.get('/google', passport.authenticate('google'), (req, res) => {
 });
 
 router.get('/google/redirect', passport.authenticate('google', {failureRedirect: '/login'}), (req, res) => {
+  req.session.googleAccessToken = req.user.googleAccessToken;
   res.redirect('/api/v1/profile')
 });
 
 router.get('/logout', async function (req, res, next) {
+  console.log(req.session)
   if (req.user && req.user.googleAccessToken) {
     try {
       console.log('ACCESS TOKEN HERE')
       // Revoke the Google OAuth access token using the same client instance
-      await googleOAuthClient.revokeToken(req.user.googleAccessToken);
+      await googleOAuthClient.revokeToken(req.session.googleAccessToken);
       console.log('TOKEN DELETED')
       req.logout(err => {
         if (err) { return next(err); }
