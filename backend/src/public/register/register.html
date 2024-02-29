@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Website Registration</title>
+  <link rel="stylesheet" href="register.css">
+  <script src="register.js" defer></script>
+</head>
+<body>
+  <h1> Register</h1>
+  <br>
+  <form action="/auth/register" method="POST">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email">
+    <br>
+    <label for="usernameInp">Username</label>
+    <input type="text" name="username" id="usernameInp">
+    <div>
+      <span id="usernameFeedback"></span>
+    </div>
+    <br>
+    <label for="password">Password</label>
+    <div class="password-input">
+      <input type="password" name="password" id="password">
+      <button type="button" id="togglePassword">Show</button>
+    </div>
+    <div id="passwordStrength" class="password-strength">
+      Password Strength: <span id="passwordStrengthText"></span>
+    </div>
+    <br>
+    <label for="cPassword">Confirm Password</label>
+    <input type="password" name="cPassword" id="cPassword">
+    <div id="passwordMatch" class="password-match">Passwords match: <span id="passwordMatchText"></span></div>
+    <button type="submit" id="registerBtn" disabled>Register</button>
+  </form>
+</body>
+</html>
