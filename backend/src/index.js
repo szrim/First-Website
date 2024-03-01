@@ -11,11 +11,7 @@ const googleUser = require('./database/schemas/googleUser');
 require('./strategies/local');
 //require('./strategies/google');
 
-//Routes
-const groceriesRoute = require('./routes/groceries');
-const marketsRoute = require('./routes/markets');
 const authRoute = require('./routes/auth');
-const profileRoute = require('./routes/profile');
 
 require('./database/mongodb');
 require('./database/sql');
@@ -39,14 +35,10 @@ app.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log('Serializing User...');
-  console.log(user);
   done(null, user.id);
 });
   
 passport.deserializeUser(async (id, done) => {
-  console.log('deserializing User...');
-  console.log(id);
   try {
       const localUser = await User.findById(id);
       const gUser = await googleUser.findById(id);
@@ -67,15 +59,6 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// app.use(express.static(path.join(__dirname, 'public', 'index')));
-// app.use('/auth/login', express.static(path.join(__dirname, 'public', 'login')));
-// app.use('/profile', express.static(path.join(__dirname, 'public', 'profile')));
-// app.use('/auth/register', express.static(path.join(__dirname, 'public', 'register')));
-
-// app.use('/groceries', groceriesRoute);
-// app.use('/markets', marketsRoute);
 app.use('/auth', authRoute);
-//app.use('/profile', profileRoute);
 
 app.listen(PORT, () => console.log(`Running Express Server on Port ${PORT}!`));
